@@ -64,8 +64,11 @@ We can then set the token manager as the token controller for `Bee`
 And we can set the permissions such so that bee voting is required to Issue, Mint, Assign, and Burn.
 
 `dao --environment aragon:rinkeby acl create $onehive $manager_bee MINT_ROLE $deployer $voting_bee`
+
 `dao --environment aragon:rinkeby acl create $onehive $manager_bee ISSUE_ROLE $voting_bee $voting_bee`
+
 `dao --environment aragon:rinkeby acl create $onehive $manager_bee ASSIGN_ROLE $voting_bee $voting_bee`
+
 `dao --environment aragon:rinkeby acl create $onehive $manager_bee BURN_ROLE $voting_bee $voting_bee`
 
 Finally we need to initialize the token manager, setting the token to non-transferrable and limiting balances to 1
@@ -99,8 +102,11 @@ Now we can change the controller of the `Honey` token to the new token manager
 And we create permissions granting authority to the Bee voting app instance
 
 `dao --environment aragon:rinkeby acl create $onehive $manager_honey MINT_ROLE $voting_bee $voting_bee`
+
 `dao --environment aragon:rinkeby acl create $onehive $manager_honey ISSUE_ROLE $voting_bee $voting_bee`
+
 `dao --environment aragon:rinkeby acl create $onehive $manager_honey ASSIGN_ROLE $voting_bee $voting_bee`
+
 `dao --environment aragon:rinkeby acl create $onehive $manager_honey BURN_ROLE $voting_bee $voting_bee`
 
 And we can initialize the `Honey` token as transferrable without a balance limiting
@@ -149,7 +155,80 @@ Grant permission for finance to transfer assets from the vault:
 
 Grant the `Honey` vote permissions on finance app:
 `dao --environment aragon:rinkeby acl create $onehive $finance CREATE_PAYMENTS_ROLE $voting_honey $voting_bee`
+
 `dao --environment aragon:rinkeby acl create $onehive $finance EXECUTE_PAYMENTS_ROLE $voting_honey $voting_bee`
+
 `dao --environment aragon:rinkeby acl create $onehive $finance MANAGE_PAYMENTS_ROLE $voting_honey $voting_bee`
 
 ---
+
+8. Install Projects and Allocations + dependencies
+
+We want the projects and allocations apps to be connected to a different vault than finance so we need to add a new vault.
+
+`dao --environment aragon:rinkeby install $onehive vault`
+
+And we can set the address to a variable
+
+`vault_allocations=0x4D90a7062711edB307aEdBd7A408ca317c32b4d7`
+
+Then we can install the address book app:
+dao install <dao-address> tps-address-book.open.aragonpm.eth --environment aragon:rinkeby
+`dao --environment aragon:rinkeby install $onehive tps-address-book.open.aragonpm.eth`
+
+Set a variable for address book:
+`address_book=0xCAD8C55c4129F8f7ecC623a3FE5b6E705DCF9F2b`
+
+Then we can set up the dot voting app linked to `Honey`:
+`dao --environment aragon:rinkeby install $onehive tps-dot-voting.open.aragonpm.eth --app-init-args $address_book $token_honey 500000000000000000 0 604800`
+
+Set a variable for dot voting
+`dot_voting=0x6d39A4151ebcaD63dde880518e110dE0942753a2`
+
+Before we install the projects app we can set a variable for the standard bounties contract on rinkeby:
+`bounties=0xcac024cb2ad5f22c3e92053b95c89f69442952d8`
+
+`dao --environment aragon:rinkeby install $onehive tps-projects.open.aragonpm.eth --app-init-args $bounties $vault_allocations $token_honey`
+
+Set variable:
+`projects=0xc2555AbAEd3797b52248e814172d2BeA6728e542`
+
+Now we can install the allocations app:
+
+`dao --environment aragon:rinkeby install $onehive tps-allocations.open.aragonpm.eth --app-init-args $address_book $vault_allocations`
+
+Set variable:
+`allocations=0xdaf27F117bC69f994309430583a9c3214DCB5672`
+
+Permissions:
+
+Address Book:
+`dao --environment aragon:rinkeby acl create $onehive $address_book ADD_ENTRY_ROLE $voting_bee $voting_bee`
+
+`dao --environment aragon:rinkeby acl create $onehive $address_book REMOVE_ENTRY_ROLE $voting_bee $voting_bee`
+
+Vault:
+`dao --environment aragon:rinkeby acl create $onehive $vault_allocations TRANSFER_ROLE $projects $voting_bee`
+
+`dao --environment aragon:rinkeby acl grant $onehive $vault_allocations TRANSFER_ROLE $allocations`
+
+Projects
+`dao --environment aragon:rinkeby acl create $onehive $projects CHANGE_SETTINGS_ROLE $voting_bee $voting_bee`
+
+`dao --environment aragon:rinkeby acl create $onehive $projects ADD_REPO_ROLE $voting_bee $voting_bee`
+
+`dao --environment aragon:rinkeby acl create $onehive $projects REMOVE_REPO_ROLE $voting_bee $voting_bee`
+
+`dao --environment aragon:rinkeby acl create $onehive $projects CURATE_ISSUES_ROLE $dot_voting $voting_bee`
+
+Dot voting
+`dao --environment aragon:rinkeby acl create $onehive $dot_voting CREATE_VOTES_ROLE $manager_bee $voting_bee`
+
+`dao --environment aragon:rinkeby acl create $onehive $dot_voting ADD_CANDIDATES_ROLE $manager_bee $voting_bee`
+
+Allocations
+`dao --environment aragon:rinkeby acl create $onehive $allocations CREATE_ACCOUNT_ROLE $voting_bee $voting_bee`
+
+`dao --environment aragon:rinkeby acl create $onehive $allocations CREATE_ALLOCATION_ROLE $dot_voting $voting_bee`
+
+`dao --environment aragon:rinkeby acl create $onehive $allocations EXECUTE_ALLOCATION_ROLE $manager_bee $voting_bee`
