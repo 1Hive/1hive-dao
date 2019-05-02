@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# This script sets environment variables to contract addresses related to the 1hive organizations rinkeby deployment.
+
+deployer=0x625236038836CecC532664915BD0399647E7826b
+onehive=0xe520428C232F6Da6f694b121181f907931fD2211
+token_bee=0xfaE3B25ec796cF099fE1e7ba21e6d99297640829
+voting_bee=0x7d8913cbB31c8D7E90Ed918B55F02DB329622bEd
+manager_bee=0x3C16dC46b84a6647f8375235cA88DAd2C27Edb8B
+token_honey=0x4a7683282053FF1e2381Cc1663fb04FbBCD18350
+manager_honey=0xDA552be756AEb99Df8d7dED3d853e1d57eFa2442
+voting_honey=0xbF76027f3048487be00416b8d480A488F5FF2Bfb
+vault_finance=0x4dDd23610430635b809384B3bD6f54c373A1dDd0
+finance=0x1820904E994518332fa6c54eB70F28FCBFF2c45c
