@@ -6,6 +6,8 @@ The following log describes the deployment process using the Aragon CLI. If your
 
 The docs for the CLI used in this deployment can be found [here](https://hack.aragon.org/docs/cli-dao-commands).
 
+You will also need to [have IPFS running](https://hack.aragon.org/docs/cli-ipfs-commands) in a separate window.
+
 ---
 1. Deploy a fresh dao
 
