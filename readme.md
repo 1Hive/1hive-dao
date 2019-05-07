@@ -4,6 +4,7 @@
 
 The following log describes the deployment process using the Aragon CLI. If your walking through this as a guide be sure to change the variables to correspond to addresses for your deployment.
 
+The docs for the CLI used in this deployment can be found [here](https://hack.aragon.org/docs/cli-dao-commands).
 
 ---
 1. Deploy a fresh dao
