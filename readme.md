@@ -1,3 +1,9 @@
+<h1 align='center'>
+  <a href='https://rinkeby.aragon.org/#/0xe520428C232F6Da6f694b121181f907931fD2211'>1Hive DAO 🐝</a>
+</h1>
+
+<br>
+
 # 1Hive Deployment Log
 
 1Hive is an Aragon organization, currently deployed to rinkeby.
@@ -9,7 +15,8 @@ The docs for the CLI used in this deployment can be found [here](https://hack.ar
 You will also need to [have IPFS running](https://hack.aragon.org/docs/cli-ipfs-commands) in a separate window.
 
 ---
-1. Deploy a fresh dao
+
+### 1. Deploy a fresh dao
 
 `dao --environment aragon:rinkeby new`
 
@@ -22,8 +29,7 @@ We should also set keep track of EOA used for Deployment
 
 ---
 
-
-2. Deploy the organizations membership token `Bee`
+### 2. Deploy the organizations membership token `Bee`
 
 `dao --environment aragon:rinkeby token new "Bee" "Bee" 0`
 
@@ -32,7 +38,8 @@ This will output the deployed token address. For legibility of subsequent comman
 `token_bee=0xfaE3B25ec796cF099fE1e7ba21e6d99297640829`
 
 ---
-3. Deploy a voting app instance tied to the `Bee` this voting app will serve as the root authority in the organization.
+
+### 3. Deploy a voting app instance tied to the `Bee` this voting app will serve as the root authority in the organization.
 
 We are initializing the voting app with a 50 percent support requirement, a 5 percent approval quorum, and one week vote duration.
 
@@ -52,7 +59,7 @@ For this to be useful we also need to create the initial permission, we can do t
 
 ---
 
-4. Deploy a Token Manager instance to manage the `Bee` token to our dao
+### 4. Deploy a Token Manager instance to manage the `Bee` token to our dao
 
 `dao --environment aragon:rinkeby install $onehive token-manager --app-init none`
 
@@ -80,7 +87,7 @@ Finally we need to initialize the token manager, setting the token to non-transf
 
 ---
 
-5. Deploy the organization's contribution token `Honey`
+### 5. Deploy the organization's contribution token `Honey`
 
 `dao --environment aragon:rinkeby token new "Honey" "Honey"`
 
@@ -90,7 +97,7 @@ Set a variable for the `Honey` token address:
 
 ---
 
-6. Install a token manager to manage `Honey`
+### 6. Install a token manager to manage `Honey`
 
 `dao --environment aragon:rinkeby install $onehive token-manager --app-init none`
 
@@ -119,7 +126,7 @@ And we can initialize the `Honey` token as transferrable without a balance limit
 
 ---
 
-7. Deploy a second voting app instance tied to `Honey`. This voting app will have authority of finances.
+### 7. Deploy a second voting app instance tied to `Honey`. This voting app will have authority of finances.
 
 We are initializing the voting app with a 50 percent support requirement, a 5 percent approval quorum, and one week vote duration.
 
@@ -139,7 +146,7 @@ For this to be useful we also need to create the initial permission, we can do t
 
 ---
 
-8. Install a vault and the finance app
+### 8. Install a vault and the finance app
 
 `dao --environment aragon:rinkeby install $onehive vault`
 
@@ -169,7 +176,7 @@ Grant the `Honey` vote permissions on finance app:
 
 ---
 
-8. Install Projects and Allocations + dependencies
+### 9. Install Projects and Allocations + dependencies
 
 We want the projects and allocations apps to be connected to a different vault than finance so we need to add a new vault.
 
