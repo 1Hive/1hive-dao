@@ -39,7 +39,7 @@ This will output the deployed token address. For legibility of subsequent comman
 
 ---
 
-### 3. Deploy a voting app instance tied to the `Bee` this voting app will serve as the root authority in the organization.
+### 3. Deploy a voting app instance tied to the `Bee` token. This voting app will serve as the root authority in the organization.
 
 We are initializing the voting app with a 50 percent support requirement, a 5 percent approval quorum, and one week vote duration.
 
