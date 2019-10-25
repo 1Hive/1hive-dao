@@ -205,7 +205,7 @@ Before we install the projects app we can set a variable for the standard bounti
 
 `bounties=0x38f1886081759f7d352c28984908d04e8d2205a6`
 
-`dao --environment aragon:rinkeby install $onehive projects.aragonpm.eth --app-init-args $bounties $vault_allocations $token_honey`
+`dao --environment aragon:rinkeby install $onehive projects.aragonpm.eth --app-init-args $bounties $vault_allocations`
 
 Set variable:
 
