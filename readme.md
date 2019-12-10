@@ -188,7 +188,7 @@ And we can set the address to a variable
 
 Then we can install the address book app:
 
-`dao --environment aragon:rinkeby install $onehive tps-address-book.open.aragonpm.eth`
+`dao --environment aragon:rinkeby install $onehive address-book.aragonpm.eth`
 
 Set a variable for address book:
 
@@ -196,16 +196,16 @@ Set a variable for address book:
 
 Then we can set up the dot voting app linked to `Honey`:
 
-`dao --environment aragon:rinkeby install $onehive tps-dot-voting.open.aragonpm.eth --app-init-args $address_book $token_honey 500000000000000000 0 604800`
+`dao --environment aragon:rinkeby install $onehive dot-voting.aragonpm.eth --app-init-args $token_honey 500000000000000000 0 604800`
 
 Set a variable for dot voting
 `dot_voting=0x6d39A4151ebcaD63dde880518e110dE0942753a2`
 
 Before we install the projects app we can set a variable for the standard bounties contract on rinkeby:
 
-`bounties=0xcac024cb2ad5f22c3e92053b95c89f69442952d8`
+`bounties=0x38f1886081759f7d352c28984908d04e8d2205a6`
 
-`dao --environment aragon:rinkeby install $onehive tps-projects.open.aragonpm.eth --app-init-args $bounties $vault_allocations $token_honey`
+`dao --environment aragon:rinkeby install $onehive projects.aragonpm.eth --app-init-args $bounties $vault_allocations`
 
 Set variable:
 
@@ -213,7 +213,7 @@ Set variable:
 
 Now we can install the allocations app:
 
-`dao --environment aragon:rinkeby install $onehive tps-allocations.open.aragonpm.eth --app-init-args $address_book $vault_allocations`
+`dao --environment aragon:rinkeby install $onehive allocations.aragonpm.eth --app-init-args $vault_allocations 2592000`
 
 Set variable:
 
@@ -226,6 +226,8 @@ Address Book:
 `dao --environment aragon:rinkeby acl create $onehive $address_book ADD_ENTRY_ROLE $voting_bee $voting_bee`
 
 `dao --environment aragon:rinkeby acl create $onehive $address_book REMOVE_ENTRY_ROLE $voting_bee $voting_bee`
+
+`dao --environment aragon:rinkeby acl create $onehive $address_book UPDATE_ENTRY_ROLE $voting_bee $voting_bee`
 
 Vault:
 
@@ -245,9 +247,9 @@ Projects:
 
 Dot voting:
 
-`dao --environment aragon:rinkeby acl create $onehive $dot_voting CREATE_VOTES_ROLE $manager_bee $voting_bee`
+`dao --environment aragon:rinkeby acl create $onehive $dot_voting ROLE_CREATE_VOTES $manager_bee $voting_bee`
 
-`dao --environment aragon:rinkeby acl create $onehive $dot_voting ADD_CANDIDATES_ROLE $manager_bee $voting_bee`
+`dao --environment aragon:rinkeby acl create $onehive $dot_voting ROLE_ADD_CANDIDATES $manager_bee $voting_bee`
 
 Allocations:
 
@@ -256,3 +258,5 @@ Allocations:
 `dao --environment aragon:rinkeby acl create $onehive $allocations CREATE_ALLOCATION_ROLE $dot_voting $voting_bee`
 
 `dao --environment aragon:rinkeby acl create $onehive $allocations EXECUTE_ALLOCATION_ROLE $manager_bee $voting_bee`
+
+`dao --environment aragon:rinkeby acl create $onehive $allocations CHANGE_BUDGETS_ROLE $voting_bee $voting_bee`
