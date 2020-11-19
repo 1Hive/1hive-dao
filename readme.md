@@ -6,6 +6,7 @@
 
 # 1Hive Deployment Log
 
+Update: 1Hive is currently deployed on the xdai chain.
 1Hive is an Aragon organization, currently deployed to rinkeby.
 
 The following log describes the deployment process using the Aragon CLI. If your walking through this as a guide be sure to change the variables to correspond to addresses for your deployment.
